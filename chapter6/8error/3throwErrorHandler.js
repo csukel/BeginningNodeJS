@@ -1,0 +1,19 @@
+/**
+ * Created by loukk on 16/08/2015.
+ */
+var connect = require('connect');
+
+connect()
+    .use(function(){
+        throw new Error('Big bad error details');
+    })
+    .use(function(req,res,next){
+        res.end('I will never get called');
+    })
+    .use(function(err,req,res,next){
+        console.log('Error handled:',err.message);
+        res.writeHead(500);
+        res.end('Server error!');
+    })
+    .listen(3000);
+console.log('Server running on port 3000');
